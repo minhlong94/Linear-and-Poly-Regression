@@ -26,19 +26,16 @@ def linearReg2D(x, y):
         totalXsqrt += x[i] ** 2
     a1 = (n * totalXY - totalX * totalY) / (n * totalXsqrt - totalX ** 2)
     a0 = totalY / n - a1 * totalX / n
-    e = 0
-    Sr = 0
-    St = 0
+    e, Sr, St = 0, 0, 0
+    result = []
     yMean = totalY / n
     for i in range(n):
         e += abs((y[i] - a0 - a1 * x[i]))
         Sr += (y[i] - a0 - a1 * x[i]) ** 2
         St += (y[i] - yMean) ** 2
+        result.append(a0 + a1 * x[i])
     rSqrt = (St - Sr) / St
     plt.plot(x, y, 'o')
-    result = []
-    for i in range(n):
-        result.append(a0 + a1 * x[i])
     plt.plot(x, result, color='red')
     print("a1 = {}, a0 = {}, rSquare = {}".format(a1, a0, rSqrt))
     plt.show()
@@ -82,7 +79,7 @@ def polyReg2D(xData, yData, order):
         St += (yData[i] - yMean) ** 2
     rSquare = (St - Sr) / St
     print("r-Square of {}-th poly order reg: {}".format(order - 1, rSquare))
-    plt.plot(xData, result, color=colorList[order], label= "Order {}".format(order))
+    plt.plot(xData, result, color=colorList[order], label="Order {}".format(order-1))
     if rSquare < 0.85:
         polyReg2D(xData, yData, order + 1)
     else:
