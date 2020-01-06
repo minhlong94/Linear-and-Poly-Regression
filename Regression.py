@@ -2,10 +2,6 @@ import csv
 import matplotlib.pyplot as plt
 import numpy as np
 import sympy as s
-import operator
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
-from sklearn.preprocessing import PolynomialFeatures
 
 
 def bubbleSort(arrX, arrY):
@@ -19,11 +15,11 @@ def bubbleSort(arrX, arrY):
 
 def linearReg(x, y):
     n = len(x)
-    totalXY = x[0] + y[0]
-    totalX = x[0]
-    totalY = y[0]
-    totalXsqrt = x[0] ** 2
-    for i in range(1, n):
+    totalXY = 0
+    totalX = 0
+    totalY = 0
+    totalXsqrt = 0
+    for i in range(n):
         totalXY += x[i] * y[i]
         totalX += x[i]
         totalY += y[i]
@@ -43,8 +39,7 @@ def linearReg(x, y):
     result = []
     for i in range(n):
         result.append(a0 + a1 * x[i])
-    for i in range(n):
-        plt.plot(x, result, color='red')
+    plt.plot(x, result, color='red')
     print("a1 = {}, a0 = {}, rSquare = {}".format(a1, a0, rSqrt))
     plt.show()
 
@@ -89,13 +84,14 @@ def polyReg(xData, yData, order):
     plt.plot(xData, yData, 'o')
     plt.plot(xData, result, color='red')
     plt.show()
-    if rSquare < 0.8:
+    if rSquare < 0.85:
         polyReg(xData, yData, order + 1)
 
 
-# file = open('polydata.csv')
+file = open('New.csv')
 # file = open('one_variable_data.csv')
-file = open('testPoly.csv')
+# file = open('testPoly.csv')
+# file = open("New.csv")
 csv_f = csv.reader(file)
 xData = []
 yData = []
@@ -106,29 +102,5 @@ xData = [float(c) for c in xData]
 yData = [float(c) for c in yData]
 bubbleSort(xData, yData)
 
-linearReg(xData, yData)
+# linearReg(xData, yData)
 polyReg(xData, yData, 1)
-
-# np.random.seed(0)
-# x = np.random.normal()
-# y = -1.524 + 3.4519*x - 1.6818*x**2 - 1.7581*(x ** 3) + 2.3*(x ** 4) + np.random.normal()
-# x = x[:, np.newaxis]
-# y = y[:, np.newaxis]
-# polyFeature = PolynomialFeatures(degree=4)
-# x_poly = polyFeature.fit_transform(x)
-#
-# model = LinearRegression()
-# model.fit(x_poly, y)
-# y_poly_pred = model.predict(x_poly)
-#
-# rmse = np.sqrt(mean_squared_error(y, y_poly_pred))
-# r2 = r2_score(y, y_poly_pred)
-# print(rmse)
-# print(r2)
-#
-# plt.scatter(x, y, s=10)
-# sort_axis = operator.itemgetter(0)
-# sorted_zip = sorted(zip(x, y_poly_pred), key=sort_axis)
-# x, y_poly_pred = zip(*sorted_zip)
-# plt.plot(x, y_poly_pred, color='m')
-# plt.show()
