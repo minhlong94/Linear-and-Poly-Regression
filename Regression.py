@@ -13,7 +13,7 @@ def bubbleSort(arrX, arrY):
                 arrY[j], arrY[j + 1] = arrY[j + 1], arrY[j]
 
 
-def linearReg(x, y):
+def linearReg2D(x, y):
     n = len(x)
     totalXY = 0
     totalX = 0
@@ -44,7 +44,8 @@ def linearReg(x, y):
     plt.show()
 
 
-def polyReg(xData, yData, order):
+def polyReg2D(xData, yData, order):
+    colorList = ['g', 'r', 'c', 'm', 'y', 'k']
     n = len(xData)
     matrixX = []
     matrixY = []
@@ -81,17 +82,18 @@ def polyReg(xData, yData, order):
         St += (yData[i] - yMean) ** 2
     rSquare = (St - Sr) / St
     print("r-Square of {}-th poly order reg: {}".format(order - 1, rSquare))
-    plt.plot(xData, yData, 'o')
-    plt.plot(xData, result, color='red')
-    plt.show()
+    plt.plot(xData, result, color=colorList[order], label= "Order {}".format(order))
     if rSquare < 0.85:
-        polyReg(xData, yData, order + 1)
+        polyReg2D(xData, yData, order + 1)
+    else:
+        plt.legend()
+        plt.show()
 
 
-file = open('New.csv')
 # file = open('one_variable_data.csv')
 # file = open('testPoly.csv')
 # file = open("New.csv")
+file = open('polydata.csv')
 csv_f = csv.reader(file)
 xData = []
 yData = []
@@ -101,6 +103,6 @@ for row in csv_f:
 xData = [float(c) for c in xData]
 yData = [float(c) for c in yData]
 bubbleSort(xData, yData)
-
+plt.plot(xData, yData, 'o')
 # linearReg(xData, yData)
-polyReg(xData, yData, 1)
+polyReg2D(xData, yData, 1)
